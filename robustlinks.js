@@ -1,4 +1,4 @@
-// Parameters TODO parametrize the code
+// Parameters TODO parametrize these two variables
 var showFooter = true;
 var restrictedURIs = [
    	"http://dx.doi.org*",
