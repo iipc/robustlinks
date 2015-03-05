@@ -14,7 +14,7 @@ var RLrestrictedURIs = [
 // Determining what is a URL. In this case, either a relative path or a HTTP/HTTPS scheme.
 var RLhasHTTPRegexp = /^https?:/;
 var RLhasColonRegexp = /:/;
-function isURL(href) {
+function RLIsURL(href) {
     return Boolean(href) && (RLhasHTTPRegexp.test(href) || !RLhasColonRegexp.test(href));
 }
 
@@ -124,6 +124,15 @@ function RLCloseLastOpen(){
     }
 }
 
+// Extracts information 
+function RLGetAttribute(obj, str){
+    try{
+        return obj.getAttribute(str).trim();
+    } catch(err) {
+        return "";
+    }
+}
+
 // Apply the script at the end of the loading.
 document.addEventListener('DOMContentLoaded', function() {
 
@@ -133,8 +142,8 @@ document.addEventListener('DOMContentLoaded', function() {
     var datePublishLinkStr = "";
     var datePublishPrintStr = "";
     for(var i=0; i<metas.length && !hasPageDate; i++) {
-        if (metas[i].getAttribute("itemprop") == "datePublished"){
-            var datePublished = metas[i].getAttribute("content");
+        if (RLGetAttribute(metas[i], "itemprop") == "datePublished"){ 
+            var datePublished = RLGetAttribute(metas[i], "content");
             hasPageDate = true;
             datePublishLinkStr = RLFormatDate(datePublished);
              datePublishPrintStr = RLPrintDate(datePublished);
@@ -145,29 +154,29 @@ document.addEventListener('DOMContentLoaded', function() {
     var links = document.getElementsByTagName("a");
     for(var i=0; i<links.length; i++) {
         // Extracts link information
-        var linkHREF = links[i].getAttribute('href');
+        var linkHREF =  RLGetAttribute(links[i], 'href');
         // The original is either in the attribute or in the href
-        var original = links[i].getAttribute("data-originalurl");
+        var original =  RLGetAttribute(links[i], 'data-originalurl');
         var hasOriginal = Boolean(original);
         if (!hasOriginal){
             original = linkHREF;
         }
         // The memento url is either data-versionurl or in the href if data-originalurl exists
-        var memento = links[i].getAttribute("data-versionurl");
+        var memento =  RLGetAttribute(links[i], 'data-versionurl');
         var hasMemento = Boolean(memento);
         if(!hasMemento && hasOriginal) {
             memento = linkHREF;
         }
         // The datetime is the data-versiondate
-        var datetime = links[i].getAttribute("data-versiondate");
+        var datetime = RLGetAttribute(links[i], 'data-versiondate');
         var hasDatetime = Boolean(datetime);
 
         // Menu appearance conditions
         var showLink  = (links[i].href.length > 0 &&  // no inner/empty links
             (' ' + links[i].className+' ').indexOf(' robustLinks ') < 0 &&  // not a link we created
             ((hasPageDate || hasOriginal || hasMemento || hasDatetime) && // one menu item at least
-            ! RLRestrictedRegexp.test(links[i].getAttribute('href'))) && // .href can be rewritten. but so is the regexp 
-            isURL(links[i].href));  // test the cleaned uri
+            ! RLRestrictedRegexp.test(linkHREF)) && // .href can be rewritten. but so is the regexp 
+            RLIsURL(linkHREF));  // test the cleaned uri
 
         if (showLink){
             var popupID = RL_ID();
