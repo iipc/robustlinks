@@ -1,3 +1,8 @@
+// robustlinks.js
+// @author Yorick Chollet <yorick.chollet@gmail.com>
+// @version 1.0
+// License can be obtained at http://mementoweb.github.io/SiteStory/license.html 
+
 // Parameters TODO parametrize these two variables
 var showFooter = true;
 var restrictedURIs = [

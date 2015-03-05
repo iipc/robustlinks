@@ -1,4 +1,14 @@
-/*ROBUST LINK CSS*/
+/* --------------------------------------------------------
+Style Sheet for RobustLinks JavaScript
+
+version: 1.0
+last modified: 2015-03-04
+author: Yorick Chollet
+email: yorick.chollet@gmail.com
+website: http://robustlinks.mementoweb.org/
+license: http://mementoweb.github.io/SiteStory/license.html
+----------------------------------------------------------*/
+
 [aria-label^="RLElement"] ul {
 	list-style: none;
 	display: inline-block;
