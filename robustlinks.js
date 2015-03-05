@@ -4,26 +4,26 @@
 // License can be obtained at http://mementoweb.github.io/SiteStory/license.html 
 
 // Parameters TODO parametrize these two variables
-var showFooter = true;
-var restrictedURIs = [
+var RLshowFooter = true;
+var RLrestrictedURIs = [
     "http://dx.doi.org*",
     "http://arxiv.org*",
     "https?://chrome.google.com*"
 ];
 
 // Determining what is a URL. In this case, either a relative path or a HTTP/HTTPS scheme.
-var hasHTTPRegexp = /^https?:/;
-var hasColonRegexp = /:/;
+var RLhasHTTPRegexp = /^https?:/;
+var RLhasColonRegexp = /:/;
 function isURL(href) {
-    return Boolean(href) && (hasHTTPRegexp.test(href) || !hasColonRegexp.test(href));
+    return Boolean(href) && (RLhasHTTPRegexp.test(href) || !RLhasColonRegexp.test(href));
 }
 
 // URI Restructions
-var baseRestrictedURI = [
+var RLbaseRestrictedURI = [
     "https?://web.archive.org/*",
 ];
 // Constructs the regular expression of restricted URIs from the baseRestrictedURI and the ones given in parameters
-var restrictedRegexp = new RegExp('(?:'+restrictedURIs.concat(baseRestrictedURI).join(')|(?:')+')');
+var RLRestrictedRegexp = new RegExp('(?:'+RLrestrictedURIs.concat(RLbaseRestrictedURI).join(')|(?:')+')');
 
 
 // Helper function to provide indexOf for Internet Explorer
@@ -40,12 +40,12 @@ if (!Array.prototype.indexOf) {
 
 // Creates a pseudorandom unique ID
 // from https://gist.github.com/gordonbrander/2230317
-var ID = function () {
-  return 'robustLinks_' + Math.random().toString(36).substr(2, 9);
+var RL_ID = function () {
+  return 'RL_' + Math.random().toString(36).substr(2, 9);
 };
 
 // Appends creates a list-item link to `uri` with `text` and appends it to `parent`
-function appendHiddenLink(parent, text, uri) {
+function RL_appendHiddenLink(parent, text, uri) {
     var listItem = document.createElement('li');
     var linkItem = document.createElement('div');
     var listLink = document.createElement('a');
@@ -60,7 +60,7 @@ function appendHiddenLink(parent, text, uri) {
 
 // Adds leading '0' to numbers
 // From http://www.w3schools.com/jsref/jsref_gethours.asp
-function addZero(i) {
+function RLAddZero(i) {
     if (i < 10) {
         i = "0" + i;
     }
@@ -68,7 +68,7 @@ function addZero(i) {
 }
 
 // Formats the dateStr in the aggregator format YYYYMMDDHHmmSS
-function formatDate(dateStr) {
+function RLFormatDate(dateStr) {
     var date = new Date(dateStr);
     if(isNaN(date)){
         // Tires to fix the date before passing it to rigourous parsers (e.g. Mozilla)
@@ -79,17 +79,17 @@ function formatDate(dateStr) {
     }
     var datestring = '';
     datestring += date.getUTCFullYear();
-    datestring += addZero(date.getUTCMonth()+1);//  getMonth start at 0
-    datestring += addZero(date.getUTCDate());
-    datestring += addZero(date.getUTCHours());
-    datestring += addZero(date.getUTCMinutes());
-    datestring += addZero(date.getUTCSeconds());
+    datestring += RLAddZero(date.getUTCMonth()+1);//  getMonth start at 0
+    datestring += RLAddZero(date.getUTCDate());
+    datestring += RLAddZero(date.getUTCHours());
+    datestring += RLAddZero(date.getUTCMinutes());
+    datestring += RLAddZero(date.getUTCSeconds());
     return datestring;
 }
 
 // Formats the dateStr in the readable format YYYY-MM-DD HH:mm:SS
-function printDate(dateStr){
-    var formatted = formatDate(dateStr);
+function RLPrintDate(dateStr){
+    var formatted = RLFormatDate(dateStr);
     var date = formatted.substr(0, 4) + '-' + formatted.substr(4, 2)+ '-' + formatted.substr(6, 2);
 
     if (formatted.substr(8, 6) != '000000'){
@@ -99,9 +99,9 @@ function printDate(dateStr){
 }
 
 // Extracts the domain name from an archive url.
-var domainRegExp = new RegExp('(?:https?://)?(?:www\\.)?((?:[A-Za-z0-9_\\.])+)(?:/.*)?','i');
-function printDomainName(url) {
-    var match = url.match(domainRegExp);
+var RLDomainRegExp = new RegExp('(?:https?://)?(?:www\\.)?((?:[A-Za-z0-9_\\.])+)(?:/.*)?','i');
+function RLPrintDomainName(url) {
+    var match = url.match(RLDomainRegExp);
     if (match){
         if (match.length > 1) {
             var domain_name =  match[1];
@@ -116,11 +116,11 @@ function printDomainName(url) {
 }
 
 // Keeps track of the last open menu to close it.
-var lastOpen;
-function closeLastOpen(){
-    if(lastOpen){
-        lastOpen.setAttribute('aria-hidden', 'true');
-        lastOpen = null;
+var RLLastOpen;
+function RLCloseLastOpen(){
+    if(RLLastOpen){
+        RLLastOpen.setAttribute('aria-hidden', 'true');
+        RLLastOpen = null;
     }
 }
 
@@ -136,8 +136,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (metas[i].getAttribute("itemprop") == "datePublished"){
             var datePublished = metas[i].getAttribute("content");
             hasPageDate = true;
-            datePublishLinkStr = formatDate(datePublished);
-             datePublishPrintStr = printDate(datePublished);
+            datePublishLinkStr = RLFormatDate(datePublished);
+             datePublishPrintStr = RLPrintDate(datePublished);
         }
     }
 
@@ -166,11 +166,11 @@ document.addEventListener('DOMContentLoaded', function() {
         var showLink  = (links[i].href.length > 0 &&  // no inner/empty links
             (' ' + links[i].className+' ').indexOf(' robustLinks ') < 0 &&  // not a link we created
             ((hasPageDate || hasOriginal || hasMemento || hasDatetime) && // one menu item at least
-            ! restrictedRegexp.test(links[i].getAttribute('href'))) && // .href can be rewritten. but so is the regexp 
+            ! RLRestrictedRegexp.test(links[i].getAttribute('href'))) && // .href can be rewritten. but so is the regexp 
             isURL(links[i].href));  // test the cleaned uri
 
         if (showLink){
-            var popupID = ID();
+            var popupID = RL_ID();
 
             var robustLinksElement = document.createElement('span');
             robustLinksElement.setAttribute('role',"navigation");
@@ -205,18 +205,18 @@ document.addEventListener('DOMContentLoaded', function() {
             // Adds the Menu Items to the dropdown menu
             if(hasPageDate){
                 var link = "http:"+"//timetravel.mementoweb.org/memento/"+datePublishLinkStr+'/'+original;
-                appendHiddenLink(dropDownItem, 'Get near page date '+ datePublishPrintStr, link);
+                RL_appendHiddenLink(dropDownItem, 'Get near page date '+ datePublishPrintStr, link);
             }
             if(hasDatetime){
-                var linkDateStr = formatDate(datetime);
+                var linkDateStr = RLFormatDate(datetime);
                 var link = "http:"+"//timetravel.mementoweb.org/memento/"+linkDateStr+'/'+original;
-                appendHiddenLink(dropDownItem, 'Get near link date '+ printDate(datetime), link);
+                RL_appendHiddenLink(dropDownItem, 'Get near link date '+ RLPrintDate(datetime), link);
             }
             if(hasMemento || hasOriginal){
-                appendHiddenLink(dropDownItem, 'Get from '+ printDomainName(memento), memento);
+                RL_appendHiddenLink(dropDownItem, 'Get from '+ RLPrintDomainName(memento), memento);
             }
             if(hasOriginal){
-                appendHiddenLink(dropDownItem, 'Get at current date', original);
+                RL_appendHiddenLink(dropDownItem, 'Get at current date', original);
             }
 
             dropDownList.appendChild(arrowDown);
@@ -231,13 +231,13 @@ document.addEventListener('DOMContentLoaded', function() {
             arrowDown.onclick = function(e) {
                 var region = document.getElementById(this.getAttribute('aria-controls'));
                 var isClosed = region.getAttribute('aria-hidden') == 'true' ;
-                closeLastOpen();
+                RLCloseLastOpen();
                   if (isClosed) {
                     region.setAttribute('aria-hidden', 'false');
-                    lastOpen = region;
+                    RLLastOpen = region;
                   } else { // region is expanded
                        region.setAttribute('aria-hidden', 'true');
-                       lastOpen = null;
+                       RLLastOpen = null;
                 }
                   e.stopPropagation();
 
@@ -251,11 +251,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     }
 
-    // Clicking anywhere closes the lastOpen menu item if it is present.
-    document.onclick = closeLastOpen;
+    // Clicking anywhere closes the RLLastOpen menu item if it is present.
+    document.onclick = RLCloseLastOpen;
 
     // Show the 'powered by RobustLinks' link
-    if (showFooter){
+    if (RLshowFooter){
         var footer = document.createElement('footer');
         footer.setAttribute('class', "RLFooter");
         footer.innerHTML = '<span style="">Powered by: </span><span><a href="http://robustlinks.mementoweb.org/">Robust Links</a></span> <span class="RLIcon">'+'</span>';
