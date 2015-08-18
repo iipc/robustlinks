@@ -183,7 +183,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Menu appearance conditions
         // Constructs the regular expression of restricted URIs from the baseRestrictedURI and the ones given in parameters
-        var RLRestrictedRegexp = new RegExp('(?:'+RLUriPatternsToExclude.concat(RLWebArchiveBaseUriToExclude).join(')|(?:')+')');
+        var RLRestrictedRegexp = new RegExp('(?:'+RLuriPatternsToExclude.concat(RLWebArchiveBaseUriToExclude).join(')|(?:')+')');
 
         var showLink  = (links[i].href.length > 0 &&  // no inner/empty links
             (' ' + links[i].className+' ').indexOf(' robustLinks ') < 0 &&  // not a link we created
