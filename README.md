@@ -16,10 +16,10 @@ Simply append the following lines to the `<head>` of your HTML source:
 
 ```html
 <!-- RobustLinks CSS -->
-<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/mementoweb/robustlinks/master/robustlinks.css" />
+<link rel="stylesheet" type="text/css" href="http://robustlinks.mementoweb.org/tools/js/robustlinks.css" />
 <!-- RobustLinks Javascript -->
-<script type="text/javascript" src="https://cdn.rawgit.com/mementoweb/robustlinks/master/robustlinks-min.js"></script>
-<script type="text/javascript" src="https://cdn.rawgit.com/mementoweb/robustlinks/master/robustlinks-uri-exclude-list.js"></script>
+<script type="text/javascript" src="http://robustlinks.mementoweb.org/tools/js/robustlinks-min.js"></script>
+<script type="text/javascript" src="http://robustlinks.mementoweb.org/tools/js/robustlinks-uri-exclude-list.js"></script>
 ```
 
 ### Exclude URLs from Robust Links
