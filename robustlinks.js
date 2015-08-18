@@ -1,14 +1,16 @@
 // robustlinks.js
 // @author Yorick Chollet <yorick.chollet@gmail.com>
-// @version 1.0
+// @author Harihar Shankar <hariharshankar@gmail.com>
+// @version 1.2
 // License can be obtained at http://mementoweb.github.io/SiteStory/license.html 
 
-// Parameters TODO parametrize these two variables
+// toggle to show the "powered by robust links" footer
 var RLshowFooter = true;
-var RLrestrictedURIs = [
-    "http://dx.doi.org*",
-    "http://arxiv.org*",
-    "https?://chrome.google.com*"
+
+// add urls that should be excluded from robust links.
+// accepts full urls or valid regular expression patterns of urls.
+var RLuriPatternsToExclude = [
+    "http://dx.doi.org*"
 ];
 
 // Determining what is a URL. In this case, either a relative path or a HTTP/HTTPS scheme.
@@ -18,13 +20,20 @@ function RLIsURL(href) {
     return Boolean(href) && (RLhasHTTPRegexp.test(href) || !RLhasColonRegexp.test(href));
 }
 
-// URI Restructions
-var RLbaseRestrictedURI = [
-    "https?://web.archive.org/*",
+// Contains URIs of web archives that should be excluded from robust links.
+// This list includes base URIs of web archives that rewrite memento urls.
+// If unsure, do not edit.
+var RLWebArchiveBaseUriToExclude = [
+    "https?://webarchive.nationalarchives.gov.uk/*",
+    "https?://web.archive.org/*"
 ];
-// Constructs the regular expression of restricted URIs from the baseRestrictedURI and the ones given in parameters
-var RLRestrictedRegexp = new RegExp('(?:'+RLrestrictedURIs.concat(RLbaseRestrictedURI).join(')|(?:')+')');
 
+
+// schema.org attributes to support
+var RLSchemaOrgAttributes = {
+    "datePublished": "Get near page creation date ",
+    "dateModified": "Get near page modified date "
+}
 
 // Helper function to provide indexOf for Internet Explorer
 // from http://stackoverflow.com/questions/2430000/determine-if-string-is-in-list-in-javascript
@@ -138,15 +147,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Extracts page information
     var metas = document.getElementsByTagName("meta");
-    var hasPageDate = false;
-    var datePublishLinkStr = "";
-    var datePublishPrintStr = "";
-    for(var i=0; i<metas.length && !hasPageDate; i++) {
-        if (RLGetAttribute(metas[i], "itemprop") == "datePublished"){ 
-            var datePublished = RLGetAttribute(metas[i], "content");
-            hasPageDate = true;
-            datePublishLinkStr = RLFormatDate(datePublished);
-             datePublishPrintStr = RLPrintDate(datePublished);
+    var metaDates = {}
+    //var datePublishLinkStr = "";
+    //var datePublishPrintStr = "";
+    for(var i=0; i<metas.length; i++) {
+        var metaAttr = RLGetAttribute(metas[i], "itemprop");
+        if (metaAttr in RLSchemaOrgAttributes) { 
+            var mdate = RLGetAttribute(metas[i], "content");
+            metaDates[metaAttr] = {"linkstr": "", "printstr": ""};
+            metaDates[metaAttr]["linkstr"] = RLFormatDate(mdate);
+            metaDates[metaAttr]["printstr"] = RLPrintDate(mdate);
         }
     }
 
@@ -172,9 +182,12 @@ document.addEventListener('DOMContentLoaded', function() {
         var hasDatetime = Boolean(datetime);
 
         // Menu appearance conditions
+        // Constructs the regular expression of restricted URIs from the baseRestrictedURI and the ones given in parameters
+        var RLRestrictedRegexp = new RegExp('(?:'+RLUriPatternsToExclude.concat(RLWebArchiveBaseUriToExclude).join(')|(?:')+')');
+
         var showLink  = (links[i].href.length > 0 &&  // no inner/empty links
             (' ' + links[i].className+' ').indexOf(' robustLinks ') < 0 &&  // not a link we created
-            ((hasPageDate || hasOriginal || hasMemento || hasDatetime) && // one menu item at least
+            ((Object.keys(metaDates).length > 0 || hasOriginal || hasMemento || hasDatetime) && // one menu item at least
             ! RLRestrictedRegexp.test(linkHREF)) && // .href can be rewritten. but so is the regexp 
             RLIsURL(linkHREF));  // test the cleaned uri
 
@@ -212,9 +225,9 @@ document.addEventListener('DOMContentLoaded', function() {
             dropDownItem.appendChild(listItem);
 
             // Adds the Menu Items to the dropdown menu
-            if(hasPageDate){
-                var link = "http:"+"//timetravel.mementoweb.org/memento/"+datePublishLinkStr+'/'+original;
-                RL_appendHiddenLink(dropDownItem, 'Get near page date '+ datePublishPrintStr, link);
+            for (metaAttr in metaDates) {
+                var link = "http:"+"//timetravel.mementoweb.org/memento/"+metaDates[metaAttr]["linkstr"]+'/'+original;
+                RL_appendHiddenLink(dropDownItem, RLSchemaOrgAttributes[metaAttr] + metaDates[metaAttr]["printstr"], link);
             }
             if(hasDatetime){
                 var linkDateStr = RLFormatDate(datetime);
