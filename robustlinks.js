@@ -10,7 +10,8 @@ var RLshowFooter = true;
 // add urls that should be excluded from robust links.
 // accepts full urls or valid regular expression patterns of urls.
 var RLuriPatternsToExclude = [
-    "http://dx.doi.org*"
+    "https?://dx.doi.org*",
+    "https?://doi.org*"
 ];
 
 // Determining what is a URL. In this case, either a relative path or a HTTP/HTTPS scheme.
@@ -165,6 +166,15 @@ document.addEventListener('DOMContentLoaded', function() {
     for(var i=0; i<links.length; i++) {
         // Extracts link information
         var linkHREF =  RLGetAttribute(links[i], 'href');
+        if (!linkHREF.search("http") == 0) {
+            var loc = window.location;
+            var abLink = loc.protocol + "//" + loc.host;
+            if (!linkHREF.search("/|../|./") == 0) {
+                abLink += "/";
+            }
+            linkHREF = abLink + linkHREF;
+        }
+
         // The original is either in the attribute or in the href
         var original =  RLGetAttribute(links[i], 'data-originalurl');
         var hasOriginal = Boolean(original);
