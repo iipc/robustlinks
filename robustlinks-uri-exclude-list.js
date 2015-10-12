@@ -1,5 +1,6 @@
 var RLuriPatternsToExclude = [
     "https?://dx.doi.org*",
+    "https?://doi.org*",
     "https?://purl.org*",
     "https?://identifiers.org*",
     "https?://handle.net*",
