@@ -5,7 +5,7 @@
 // License can be obtained at http://mementoweb.github.io/SiteStory/license.html 
 
 // toggle to show the "powered by robust links" footer
-var RLshowFooter = true;
+// var RLshowFooter = true;
 
 // add urls that should be excluded from robust links.
 // accepts full urls or valid regular expression patterns of urls.
@@ -286,6 +286,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Clicking anywhere closes the RLLastOpen menu item if it is present.
     document.onclick = RLCloseLastOpen;
 
+    /*
     // Show the 'powered by RobustLinks' link
     if (RLshowFooter){
         var footer = document.createElement('footer');
@@ -293,7 +294,5 @@ document.addEventListener('DOMContentLoaded', function() {
         footer.innerHTML = '<span style="">Powered by: </span><span><a href="http://robustlinks.mementoweb.org/">Robust Links</a></span> <span class="RLIcon">'+'</span>';
         document.getElementsByTagName('body')[0].appendChild(footer);
     }
-
-
-
+    */
 }, false);
