@@ -24,7 +24,7 @@ Simply append the following lines to the `<head>` of your HTML source:
 
 ## RobustLinks Menu
 
-After adding the RobustLinks javascript source to your HTML file, a new link icon will appear next to all the decorated links in the page. Clicking the down arrow in this link icon will pop a menu with one or more of the following items, depending on the decoration attributes provided in each of the links.
+After adding the RobustLinks javascript source to your HTML file, a new link icon will appear next to all the decorated links in the page. Clicking the down arrow in this link icon will pop up a menu with one or more of the following items, depending on the decoration attributes provided in each of the links.
 
 * `Get near link date ...`: When clicking this menu item, the javascript library will use the datetime provided in the `data-versiondate` attribute along with the original url and redirect you to the closest memento around that datetime using the [Memento Time Travel](http://timetravel.mementoweb.org/guide/api/) service.
 
@@ -32,9 +32,9 @@ After adding the RobustLinks javascript source to your HTML file, a new link ico
 
 * `Get at current date`: Clicking this menu item will take you to the original url provided in the `data-originalurl` attribute.
 
-* `Get near page creation date ...`: This menu item is similar to the `Get near link date ...`, except it uses the [Schema.org](http://schema.org) attribute `datePublished`, if provided. 
+* `Get near page creation date ...`: This menu item is similar to the `Get near link date ...`, except it uses the [Schema.org](http://schema.org) attribute `datePublished`, if provided in the linking HTML page. 
 
-* `Get near page modified date ...`: This menu item is similar to the `Get near link date ...`, except it uses the [Schema.org](http://schema.org) attribute `dateModified`, if provided. 
+* `Get near page modified date ...`: This menu item is similar to the `Get near link date ...`, except it uses the [Schema.org](http://schema.org) attribute `dateModified`, if provided in the linking HTML page. 
 
 ### Exclude URLs from Robust Links
 
