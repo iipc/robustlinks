@@ -236,12 +236,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Adds the Menu Items to the dropdown menu
             for (metaAttr in metaDates) {
-                var link = "http:"+"//timetravel.mementoweb.org/memento/"+metaDates[metaAttr]["linkstr"]+'/'+original;
+                var link = "https:"+"//timetravel.mementoweb.org/memento/"+metaDates[metaAttr]["linkstr"]+'/'+original;
                 RL_appendHiddenLink(dropDownItem, RLSchemaOrgAttributes[metaAttr] + metaDates[metaAttr]["printstr"], link);
             }
             if(hasDatetime){
                 var linkDateStr = RLFormatDate(datetime);
-                var link = "http:"+"//timetravel.mementoweb.org/memento/"+linkDateStr+'/'+original;
+                var link = "https:"+"//timetravel.mementoweb.org/memento/"+linkDateStr+'/'+original;
                 RL_appendHiddenLink(dropDownItem, 'Get near link date '+ RLPrintDate(datetime), link);
             }
             if(hasMemento || hasOriginal){
