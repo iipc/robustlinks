@@ -1,7 +1,8 @@
 // robustlinks.js
 // @author Yorick Chollet <yorick.chollet@gmail.com>
 // @author Harihar Shankar <hariharshankar@gmail.com>
-// @version 1.2
+// @author Shawn M. Jones <jones.shawn.m@gmail.com>
+// @version 1.3
 // License can be obtained at http://mementoweb.github.io/SiteStory/license.html 
 
 // toggle to show the "powered by robust links" footer
@@ -32,8 +33,8 @@ var RLWebArchiveBaseUriToExclude = [
 
 // schema.org attributes to support
 var RLSchemaOrgAttributes = {
-    "datePublished": "Get near page creation date ",
-    "dateModified": "Get near page modified date "
+    "datePublished": "Visit link near page creation date ",
+    "dateModified": "Visit link near page modified date "
 }
 
 // Helper function to provide indexOf for Internet Explorer
@@ -143,156 +144,178 @@ function RLGetAttribute(obj, str){
     }
 }
 
+function robustify_links_on_page() {
+
+    console.log("callable robust links started...");
+    
+        // Extracts page information
+        var metas = document.getElementsByTagName("meta");
+        var metaDates = {}
+        //var datePublishLinkStr = "";
+        //var datePublishPrintStr = "";
+        for(var i=0; i<metas.length; i++) {
+            var metaAttr = RLGetAttribute(metas[i], "itemprop");
+            if (metaAttr in RLSchemaOrgAttributes) { 
+                var mdate = RLGetAttribute(metas[i], "content");
+                metaDates[metaAttr] = {"linkstr": "", "printstr": ""};
+                metaDates[metaAttr]["linkstr"] = RLFormatDate(mdate);
+                metaDates[metaAttr]["printstr"] = RLPrintDate(mdate);
+            }
+        }
+    
+        // For every <a> link
+        var links = document.getElementsByTagName("a");
+        for(var i=0; i<links.length; i++) {
+            // Extracts link information
+            var linkHREF =  RLGetAttribute(links[i], 'href');
+            console.log("examining href value " + linkHREF);
+            if (!linkHREF.search("http") == 0) {
+                var loc = window.location;
+                var abLink = loc.protocol + "//" + loc.host;
+                if (!linkHREF.search("/|../|./") == 0) {
+                    abLink += "/";
+                }
+                linkHREF = abLink + linkHREF;
+            }
+    
+            // The original is either in the attribute or in the href
+            var original =  RLGetAttribute(links[i], 'data-originalurl');
+            console.log("got original value of " + original);
+            var hasOriginal = Boolean(original);
+            if (!hasOriginal){
+                original = linkHREF;
+            }
+            // The memento url is either data-versionurl or in the href if data-originalurl exists
+            var memento =  RLGetAttribute(links[i], 'data-versionurl');
+            console.log("got memento value of " + memento);
+            var hasMemento = Boolean(memento);
+            if(!hasMemento && hasOriginal) {
+                memento = linkHREF;
+            }
+            // The datetime is the data-versiondate
+            var datetime = RLGetAttribute(links[i], 'data-versiondate');
+            console.log("got datetime of " + datetime);
+            var hasDatetime = Boolean(datetime);
+    
+            // Menu appearance conditions
+            // Constructs the regular expression of restricted URIs from the baseRestrictedURI and the ones given in parameters
+            // var RLRestrictedRegexp = new RegExp('(?:'+RLuriPatternsToExclude.concat(RLWebArchiveBaseUriToExclude).join(')|(?:')+')');
+            var RLRestrictedRegexp = new RegExp('(?:'+RLuriPatternsToExclude.join(')|(?:')+')');
+            
+            var showLink  = (
+                links[i].href.length > 0 &&  // no inner/empty links
+                (' ' + links[i].className+' ').indexOf(' robustLinks ') < 0 &&  // not a link we created
+                (
+                    (Object.keys(metaDates).length > 0 || hasOriginal || hasMemento || hasDatetime) && // one menu item at least
+                    ! RLRestrictedRegexp.test(linkHREF)
+                ) && // .href can be rewritten. but so is the regexp 
+                RLIsURL(linkHREF)
+                );  // test the cleaned uri
+    
+            console.log("showLink is ");
+            console.log(showLink);
+
+            if (showLink){
+                var popupID = RL_ID();
+    
+                var robustLinksElement = document.createElement('span');
+                robustLinksElement.setAttribute('role',"navigation");
+                robustLinksElement.setAttribute('aria-label', 'RLElement');
+    
+                // Only one menu (the arrow link)
+                var outer = document.createElement('ul');
+                var dropDownList = document.createElement('li');
+                dropDownList.setAttribute('aria-label', 'RLOuter');
+                var arrowDown = document.createElement('a');
+                arrowDown.href = "";
+                arrowDown.setAttribute('aria-haspopup', 'true');
+                arrowDown.setAttribute('class', 'robustLinks dropDownButton RLArrow');
+                arrowDown.setAttribute('aria-controls', popupID);
+    
+                // The link glyph
+                var linkChar = document.createElement('div');
+                linkChar.setAttribute('class','robustLinks dropDownButton RLIcon');
+    
+                // The dropdown menu
+                var dropDownItem = document.createElement('ul');
+                dropDownItem.setAttribute('class', 'RLMenu');
+                dropDownItem.id = popupID;
+                dropDownItem.setAttribute('aria-hidden', 'true');
+    
+                // Adds the title to the dropdown menu
+                var listItem = document.createElement('li');
+                listItem.setAttribute('class', 'RLTitle');
+                listItem.innerHTML = 'Robust Links';
+                dropDownItem.appendChild(listItem);
+    
+                // Adds the Menu Items to the dropdown menu
+                for (metaAttr in metaDates) {
+                    var link = "http:"+"//timetravel.mementoweb.org/memento/"+metaDates[metaAttr]["linkstr"]+'/'+original;
+                    RL_appendHiddenLink(dropDownItem, RLSchemaOrgAttributes[metaAttr] + metaDates[metaAttr]["printstr"], link);
+                }
+                if(hasDatetime){
+                    var linkDateStr = RLFormatDate(datetime);
+                    var link = "http:"+"//timetravel.mementoweb.org/memento/"+linkDateStr+'/'+original;
+                    RL_appendHiddenLink(dropDownItem, 'Visit an archived version near date<br>'+ RLPrintDate(datetime), link);
+                }
+                if (hasMemento) {
+                    RL_appendHiddenLink(dropDownItem, 'Visit the archived version at '+ RLPrintDomainName(memento), memento);
+                }
+                // if(hasMemento || hasOriginal){
+                // if(hasOriginal){
+                //     RL_appendHiddenLink(dropDownItem, 'hasOriginal: Visit the archived version at '+ RLPrintDomainName(memento), memento);
+                // }
+                if(hasOriginal){
+                    RL_appendHiddenLink(dropDownItem, 'Visit current version', original);
+                }
+    
+                dropDownList.appendChild(arrowDown);
+                dropDownList.appendChild(dropDownItem);
+    
+                outer.appendChild(dropDownList);
+                robustLinksElement.appendChild(outer);
+    
+                arrowDown.parentNode.insertBefore(linkChar, arrowDown);
+    
+                // Adds the click function which toggles the aria-hidden Boolean
+                arrowDown.onclick = function(e) {
+                    var region = document.getElementById(this.getAttribute('aria-controls'));
+                    var isClosed = region.getAttribute('aria-hidden') == 'true' ;
+                    RLCloseLastOpen();
+                      if (isClosed) {
+                        region.setAttribute('aria-hidden', 'false');
+                        RLLastOpen = region;
+                      } else { // region is expanded
+                           region.setAttribute('aria-hidden', 'true');
+                           RLLastOpen = null;
+                    }
+                      e.stopPropagation();
+    
+                    return false;
+    
+                };
+    
+                // Insert the robustLinks element directly after the link
+                links[i].parentNode.insertBefore(robustLinksElement, links[i].nextSibling);
+            }
+    
+        }
+    
+        // Clicking anywhere closes the RLLastOpen menu item if it is present.
+        document.onclick = RLCloseLastOpen;
+    
+        /*
+        // Show the 'powered by RobustLinks' link
+        if (RLshowFooter){
+            var footer = document.createElement('footer');
+            footer.setAttribute('class', "RLFooter");
+            footer.innerHTML = '<span style="">Powered by: </span><span><a href="http://robustlinks.mementoweb.org/">Robust Links</a></span> <span class="RLIcon">'+'</span>';
+            document.getElementsByTagName('body')[0].appendChild(footer);
+        }
+        */
+}
+
 // Apply the script at the end of the loading.
 document.addEventListener('DOMContentLoaded', function() {
-
-    // Extracts page information
-    var metas = document.getElementsByTagName("meta");
-    var metaDates = {}
-    //var datePublishLinkStr = "";
-    //var datePublishPrintStr = "";
-    for(var i=0; i<metas.length; i++) {
-        var metaAttr = RLGetAttribute(metas[i], "itemprop");
-        if (metaAttr in RLSchemaOrgAttributes) { 
-            var mdate = RLGetAttribute(metas[i], "content");
-            metaDates[metaAttr] = {"linkstr": "", "printstr": ""};
-            metaDates[metaAttr]["linkstr"] = RLFormatDate(mdate);
-            metaDates[metaAttr]["printstr"] = RLPrintDate(mdate);
-        }
-    }
-
-    // For every <a> link
-    var links = document.getElementsByTagName("a");
-    for(var i=0; i<links.length; i++) {
-        // Extracts link information
-        var linkHREF =  RLGetAttribute(links[i], 'href');
-        if (!linkHREF.search("http") == 0) {
-            var loc = window.location;
-            var abLink = loc.protocol + "//" + loc.host;
-            if (!linkHREF.search("/|../|./") == 0) {
-                abLink += "/";
-            }
-            linkHREF = abLink + linkHREF;
-        }
-
-        // The original is either in the attribute or in the href
-        var original =  RLGetAttribute(links[i], 'data-originalurl');
-        var hasOriginal = Boolean(original);
-        if (!hasOriginal){
-            original = linkHREF;
-        }
-        // The memento url is either data-versionurl or in the href if data-originalurl exists
-        var memento =  RLGetAttribute(links[i], 'data-versionurl');
-        var hasMemento = Boolean(memento);
-        if(!hasMemento && hasOriginal) {
-            memento = linkHREF;
-        }
-        // The datetime is the data-versiondate
-        var datetime = RLGetAttribute(links[i], 'data-versiondate');
-        var hasDatetime = Boolean(datetime);
-
-        // Menu appearance conditions
-        // Constructs the regular expression of restricted URIs from the baseRestrictedURI and the ones given in parameters
-        var RLRestrictedRegexp = new RegExp('(?:'+RLuriPatternsToExclude.concat(RLWebArchiveBaseUriToExclude).join(')|(?:')+')');
-
-        var showLink  = (links[i].href.length > 0 &&  // no inner/empty links
-            (' ' + links[i].className+' ').indexOf(' robustLinks ') < 0 &&  // not a link we created
-            ((Object.keys(metaDates).length > 0 || hasOriginal || hasMemento || hasDatetime) && // one menu item at least
-            ! RLRestrictedRegexp.test(linkHREF)) && // .href can be rewritten. but so is the regexp 
-            RLIsURL(linkHREF));  // test the cleaned uri
-
-        if (showLink){
-            var popupID = RL_ID();
-
-            var robustLinksElement = document.createElement('span');
-            robustLinksElement.setAttribute('role',"navigation");
-            robustLinksElement.setAttribute('aria-label', 'RLElement');
-
-            // Only one menu (the arrow link)
-            var outer = document.createElement('ul');
-            var dropDownList = document.createElement('li');
-            dropDownList.setAttribute('aria-label', 'RLOuter');
-            var arrowDown = document.createElement('a');
-            arrowDown.href = "";
-            arrowDown.setAttribute('aria-haspopup', 'true');
-            arrowDown.setAttribute('class', 'robustLinks dropDownButton RLArrow');
-            arrowDown.setAttribute('aria-controls', popupID);
-
-            // The link glyph
-            var linkChar = document.createElement('div');
-            linkChar.setAttribute('class','robustLinks dropDownButton RLIcon');
-
-            // The dropdown menu
-            var dropDownItem = document.createElement('ul');
-            dropDownItem.setAttribute('class', 'RLMenu');
-            dropDownItem.id = popupID;
-            dropDownItem.setAttribute('aria-hidden', 'true');
-
-            // Adds the title to the dropdown menu
-            var listItem = document.createElement('li');
-            listItem.setAttribute('class', 'RLTitle');
-            listItem.innerHTML = 'Robust Links';
-            dropDownItem.appendChild(listItem);
-
-            // Adds the Menu Items to the dropdown menu
-            for (metaAttr in metaDates) {
-                var link = "https:"+"//timetravel.mementoweb.org/memento/"+metaDates[metaAttr]["linkstr"]+'/'+original;
-                RL_appendHiddenLink(dropDownItem, RLSchemaOrgAttributes[metaAttr] + metaDates[metaAttr]["printstr"], link);
-            }
-            if(hasDatetime){
-                var linkDateStr = RLFormatDate(datetime);
-                var link = "https:"+"//timetravel.mementoweb.org/memento/"+linkDateStr+'/'+original;
-                RL_appendHiddenLink(dropDownItem, 'Get near link date '+ RLPrintDate(datetime), link);
-            }
-            if(hasMemento || hasOriginal){
-                RL_appendHiddenLink(dropDownItem, 'Get from '+ RLPrintDomainName(memento), memento);
-            }
-            if(hasOriginal){
-                RL_appendHiddenLink(dropDownItem, 'Get at current date', original);
-            }
-
-            dropDownList.appendChild(arrowDown);
-            dropDownList.appendChild(dropDownItem);
-
-            outer.appendChild(dropDownList);
-            robustLinksElement.appendChild(outer);
-
-            arrowDown.parentNode.insertBefore(linkChar, arrowDown);
-
-            // Adds the click function which toggles the aria-hidden Boolean
-            arrowDown.onclick = function(e) {
-                var region = document.getElementById(this.getAttribute('aria-controls'));
-                var isClosed = region.getAttribute('aria-hidden') == 'true' ;
-                RLCloseLastOpen();
-                  if (isClosed) {
-                    region.setAttribute('aria-hidden', 'false');
-                    RLLastOpen = region;
-                  } else { // region is expanded
-                       region.setAttribute('aria-hidden', 'true');
-                       RLLastOpen = null;
-                }
-                  e.stopPropagation();
-
-                return false;
-
-            };
-
-            // Insert the robustLinks element directly after the link
-            links[i].parentNode.insertBefore(robustLinksElement, links[i].nextSibling);
-        }
-
-    }
-
-    // Clicking anywhere closes the RLLastOpen menu item if it is present.
-    document.onclick = RLCloseLastOpen;
-
-    /*
-    // Show the 'powered by RobustLinks' link
-    if (RLshowFooter){
-        var footer = document.createElement('footer');
-        footer.setAttribute('class', "RLFooter");
-        footer.innerHTML = '<span style="">Powered by: </span><span><a href="http://robustlinks.mementoweb.org/">Robust Links</a></span> <span class="RLIcon">'+'</span>';
-        document.getElementsByTagName('body')[0].appendChild(footer);
-    }
-    */
+    robustify_links_on_page();
 }, false);
