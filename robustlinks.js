@@ -2,7 +2,7 @@
 // @author Yorick Chollet <yorick.chollet@gmail.com>
 // @author Harihar Shankar <hariharshankar@gmail.com>
 // @author Shawn M. Jones <jones.shawn.m@gmail.com>
-// @version 1.3
+// @version 1.4
 // License can be obtained at http://mementoweb.github.io/SiteStory/license.html 
 
 // toggle to show the "powered by robust links" footer
@@ -33,8 +33,8 @@ var RLWebArchiveBaseUriToExclude = [
 
 // schema.org attributes to support
 var RLSchemaOrgAttributes = {
-    "datePublished": "Visit link near page creation date ",
-    "dateModified": "Visit link near page modified date "
+    "datePublished": "Archived version near page creation date ",
+    "dateModified": "Archived version near page modified date "
 }
 
 // Helper function to provide indexOf for Internet Explorer
@@ -256,17 +256,17 @@ function robustify_links_on_page() {
                 if(hasDatetime){
                     var linkDateStr = RLFormatDate(datetime);
                     var link = "http:"+"//timetravel.mementoweb.org/memento/"+linkDateStr+'/'+original;
-                    RL_appendHiddenLink(dropDownItem, 'Visit an archived version near date<br>'+ RLPrintDate(datetime), link);
+                    RL_appendHiddenLink(dropDownItem, 'Archived version near date<br>'+ RLPrintDate(datetime), link);
                 }
                 if (hasMemento) {
-                    RL_appendHiddenLink(dropDownItem, 'Visit the archived version at '+ RLPrintDomainName(memento), memento);
+                    RL_appendHiddenLink(dropDownItem, 'Archived version at '+ RLPrintDomainName(memento), memento);
                 }
                 // if(hasMemento || hasOriginal){
                 // if(hasOriginal){
                 //     RL_appendHiddenLink(dropDownItem, 'hasOriginal: Visit the archived version at '+ RLPrintDomainName(memento), memento);
                 // }
                 if(hasOriginal){
-                    RL_appendHiddenLink(dropDownItem, 'Visit current version', original);
+                    RL_appendHiddenLink(dropDownItem, 'Live version', original);
                 }
     
                 dropDownList.appendChild(arrowDown);
