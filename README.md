@@ -1,12 +1,10 @@
 # Robust Links
 Are you an author of web pages and you don't want your links to die? Here is a really easy way to achieve just that:
 
-* Express the creation date of your pages in a machine-actionable manner, using the [schema.org](https://schema.org/) approach.
-  * Robust Links currently supports `datePublished` and `dateModified` attributes.
 * Include the robustlinks JavaScript and CSS files into your pages as shown below.
-* The result will be that each link will be augmented with the ability to see the linked resource as it was around creation time of the page. This is achieved by resolving links using the [Memento Time Travel](http://timetravel.mementoweb.org/guide/api/) infrastructure that aggregates web archives, worldwide. At any time, even when a link breaks, the Robust Link will lead to archived content.
-* Even better link robustness can be achieved by decorating the links as explained in the [Link Decoration document](http://robustlinks.mementoweb.org/spec/).
+* Link robustness can be achieved by decorating the links as explained in the [Link Decoration document](http://robustlinks.mementoweb.org/spec/).
 * You can read about the motivations for using robust links [here](http://robustlinks.mementoweb.org/about/). 
+* The result will be that each link will be augmented with the ability to see the linked resource as it was around creation time of the page. This is achieved by resolving links using the [Memento Time Travel](http://timetravel.mementoweb.org/guide/api/) infrastructure that aggregates web archives, worldwide. At any time, even when a link breaks, the Robust Link will lead to archived content.
 
 ![](http://robustlinks.mementoweb.org/demo/robustlinks_demo.gif)
 
@@ -26,15 +24,11 @@ Simply append the following lines to the `<head>` of your HTML source:
 
 After adding the RobustLinks javascript source to your HTML file, a new link icon will appear next to all the decorated links in the page. Clicking the down arrow in this link icon will pop up a menu with one or more of the following items, depending on the decoration attributes provided in each of the links.
 
-* `Visit an archived version near dat ...`: When clicking this menu item, the javascript library will use the datetime provided in the `data-versiondate` attribute along with the original url and redirect you to the closest memento around that datetime using the [Memento Time Travel](http://timetravel.mementoweb.org/guide/api/) service.
+* `Memento near ...`: When clicking this menu item, the javascript library will use the datetime provided in the `data-versiondate` attribute along with the original url and redirect you to the closest memento around that datetime using the [Memento Time Travel](http://timetravel.mementoweb.org/guide/api/) service.
 
-* `Visit the archived version at ...`: Clicking this menu item will redirect you to the memento url provided in the `data-versionurl` attribute.
+* `Memento from Robust Link`: Clicking this menu item will redirect you to the memento url provided in the `data-versionurl` attribute.
 
-* `Visit current version`: Clicking this menu item will take you to the original url provided in the `data-originalurl` attribute.
-
-* `Visit link near page creation date ...`: This menu item is similar to the `Get near link date ...`, except it uses the [Schema.org](http://schema.org) attribute `datePublished`, if provided in the linking HTML page. 
-
-* `Visit link near page modified date ...`: This menu item is similar to the `Get near link date ...`, except it uses the [Schema.org](http://schema.org) attribute `dateModified`, if provided in the linking HTML page. 
+* `Live web version`: Clicking this menu item will take you to the original url provided in the `data-originalurl` attribute.
 
 ### Exclude URLs from Robust Links
 
