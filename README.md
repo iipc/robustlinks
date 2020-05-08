@@ -6,7 +6,7 @@ Are you an author of web pages and you don't want your links to die? Here is a r
 * You can read about the motivations for using robust links [here](http://robustlinks.mementoweb.org/about/). 
 * The result will be that each link will be augmented with the ability to see the linked resource as it was around creation time of the page. This is achieved by resolving links using the [Memento Time Travel](http://timetravel.mementoweb.org/guide/api/) infrastructure that aggregates web archives, worldwide. At any time, even when a link breaks, the Robust Link will lead to archived content.
 
-![](http://robustlinks.mementoweb.org/demo/robustlinks_demo.gif?)
+![](http://robustlinks.mementoweb.org/demo/robustlinks_demo.gif)
 
 ## Add Robust Links To Your Webpages
 
