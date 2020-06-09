@@ -1,10 +1,9 @@
 /* --------------------------------------------------------
 Style Sheet for RobustLinks JavaScript
 
-version: 1.0
+version: 1.1
 last modified: 2015-03-04
-author: Yorick Chollet
-email: yorick.chollet@gmail.com
+author: Yorick Chollet <yorick.chollet@gmail.com>, Shawn M. Jones <jones.shawn.m@gmail.com>
 website: http://robustlinks.mementoweb.org/
 license: http://mementoweb.github.io/SiteStory/license.html
 ----------------------------------------------------------*/
@@ -65,6 +64,7 @@ ul.RLMenu{
     text-decoration: none;
     display: block;
     padding: 10px;
+    text-align: center;
 }
 
 [aria-label^="RLOuter"] .RLTitle {

@@ -2,7 +2,7 @@
 // @author Yorick Chollet <yorick.chollet@gmail.com>
 // @author Harihar Shankar <hariharshankar@gmail.com>
 // @author Shawn M. Jones <jones.shawn.m@gmail.com>
-// @version 1.5
+// @version 1.6
 // License can be obtained at http://mementoweb.github.io/SiteStory/license.html 
 
 // toggle to show the "powered by robust links" footer
@@ -136,8 +136,6 @@ function robustify_links_on_page() {
     var spans = document.getElementsByTagName("span");
 
     for (var i=spans.length - 1; i >=0; i--) {
-        console.log("examining span " + i);
-        console.log(spans[i]);
         
         ariaLabel = RLGetAttribute(spans[i], "aria-label");
         role = RLGetAttribute(spans[i], "role");
@@ -232,25 +230,27 @@ function robustify_links_on_page() {
             // Adds the title to the dropdown menu
             var listItem = document.createElement('li');
             listItem.setAttribute('class', 'RLTitle');
-            listItem.innerHTML = 'Robust Links';
-            dropDownItem.appendChild(listItem);
+            // listItem.innerHTML = 'Robust Links';
+            // dropDownItem.appendChild(listItem);
 
             // only make the URI-R menu item if there is something to link to
             if (original) {
-                RL_appendHiddenLink(dropDownItem, 'Live web version', original);
+                RL_appendHiddenLink(dropDownItem, 'Current version of page', original);
             }
 
             // only make the URI-M menu item if there is something to link to
             if (memento) {
-                RL_appendHiddenLink(dropDownItem, "Memento from Robust Link", memento);
+                RL_appendHiddenLink(dropDownItem, "Version archived on " + RLPrintDate(datetime), memento);
             }
 
             // Adds the Menu Items to the dropdown menu
             if(hasDatetime){
                 var linkDateStr = RLFormatDate(datetime);
                 var link = "http:"+"//timetravel.mementoweb.org/memento/"+linkDateStr+'/'+original;
-                RL_appendHiddenLink(dropDownItem, 'Memento near '+ RLPrintDate(datetime), link);
+                RL_appendHiddenLink(dropDownItem, 'Version archived near '+ RLPrintDate(datetime), link);
             }
+
+            RL_appendHiddenLink(dropDownItem, '<span style="text-decoration: underline; color:#0000ff"><img src="https://robustlinks.mementoweb.org/images/robustlinks-16px.png">Robustify Your Links!</span>', 'https://robustlinks.mementoweb.org/')
 
             dropDownList.appendChild(arrowDown);
             dropDownList.appendChild(dropDownItem);
