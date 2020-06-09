@@ -154,16 +154,11 @@ var RobustLinks = (function() {
     
         // For every <a> link
         var links = document.getElementsByTagName("a");
-
-        console.log("links...");
-        console.log(links);
         
         for(var i=0; i<links.length; i++) {
     
             // Extracts link information
             var linkHREF =  RLGetAttribute(links[i], 'href');
-
-            console.log("linkHREF: " + linkHREF);
             
             if (!linkHREF.search("http") == 0) {   
                 linkHREF = new URL(linkHREF, window.location.href).href;
