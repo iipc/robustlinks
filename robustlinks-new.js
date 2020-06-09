@@ -151,21 +151,19 @@ var RobustLinks = (function() {
     
         // For every <a> link
         var links = document.getElementsByTagName("a");
+
+        console.log("links...");
+        console.log(links);
         
         for(var i=0; i<links.length; i++) {
     
             // Extracts link information
             var linkHREF =  RLGetAttribute(links[i], 'href');
+
+            console.log("linkHREF: " + linkHREF);
             
-            if (!linkHREF.search("http") == 0) {
-                var loc = window.location;
-                var abLink = loc.protocol + "//" + loc.host;
-    
-                if (!linkHREF.search("/|../|./") == 0) {
-                    abLink += "/";
-                }
-    
-                linkHREF = abLink + linkHREF;
+            if (!linkHREF.search("http") == 0) {   
+                linkHREF = new URL(linkHREF, window.location.href).href;
             }
     
             // The original is either in the attribute or in the href
@@ -190,15 +188,12 @@ var RobustLinks = (function() {
             
             var hasDatetime = Boolean(datetime);
     
-            // var RLRestrictedRegexp = new RegExp('(?:'+RLWebArchiveBaseUriToExclude.join(')|(?:')+')');
-    
             var showLink  = (
                 links[i].href.length > 0 &&  // no inner/empty links
                 (' ' + links[i].className+' ').indexOf(' robustLinks ') < 0 &&  // not a link we created
                 (
                     ( hasOriginal || hasMemento || hasDatetime ) 
-                ) && // .href can be rewritten. but so is the regexp 
-                // ! RLRestrictedRegexp.test(linkHREF) && // .href can be rewritten, but so is the regexp
+                ) && 
                 RLIsURL(linkHREF)
                 );  // test the cleaned uri
     
@@ -232,8 +227,6 @@ var RobustLinks = (function() {
                 // Adds the title to the dropdown menu
                 var listItem = document.createElement('li');
                 listItem.setAttribute('class', 'RLTitle');
-                // listItem.innerHTML = 'Robust Links';
-                // dropDownItem.appendChild(listItem);
     
                 // only make the URI-R menu item if there is something to link to
                 if (original) {
