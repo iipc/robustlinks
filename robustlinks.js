@@ -52,9 +52,12 @@ var RobustLinks = (function() {
     ];
 
     var RLIsURL = function(href) {
-        var RLhasHTTPRegexp = /^https?:/;
-        var RLhasColonRegexp = /:/;
-        return Boolean(href) && (RLhasHTTPRegexp.test(href) || !RLhasColonRegexp.test(href));
+        try {
+            var url = new URL(href);
+            return true; // we survived to get here
+        } catch(err) {
+            return false; // not a URL
+        }
     }
     
     // Adds leading '0' to numbers
