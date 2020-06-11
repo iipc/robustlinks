@@ -2,7 +2,7 @@
 // @author Yorick Chollet <yorick.chollet@gmail.com>
 // @author Harihar Shankar <hariharshankar@gmail.com>
 // @author Shawn M. Jones <jones.shawn.m@gmail.com>
-// @version 2.0
+// @version 2.0.1
 // License can be obtained at http://mementoweb.github.io/SiteStory/license.html 
 
 // Determining what is a URL. In this case, either a relative path or a HTTP/HTTPS scheme.
@@ -14,14 +14,14 @@ var RobustLinks = (function() {
     // DO NOT EDIT!
     var RLWebArchiveBaseUriToExclude = [
         "https?://web.archive.org/web/*", // Internet Archive
-        "https?://wayback.archive-it.org/11112/*", // PRONI
+        // "https?://wayback.archive-it.org/11112/*", // PRONI
         "https?://web.archive.bibalex.org/web/*", // Bibliotheca Alexandrina Web Archive
         "https?://www.webarchive.org.uk/wayback/en/archive/*", // UK Web Archive
         "https?://langzeitarchivierung.bib-bvb.de/wayback/*,", // Bayerische Staatsbibliothek 
         "https?://webcitation.org/", // Web Cite
         "https?://webarchive.loc.gov/all/*", // Library of Congress
         "https?://wayback.archive-it.org/all/*", // Archive-It (all collection)
-        "https?://wayback.archive-it.org/[0-9]+/*", // Archive-It (any collection)
+        "https?://wayback.archive-it.org/[0-9]+/*", // Archive-It (any collection), PRONI, NLI
         "https?://webarchive.parliament.uk/[0-9]+/*", // UK Parliament Web Archive (in pywb frame)
         "https?://webarchive.parliament.uk/[0-9]+tf_/*", // UK Parliament Web Archive (outside pywb frame)
         "https?://webarchive.nationalarchives.gov.uk/[0-9]+/*", // UK National Archives Web Archive (in pywb frame)
@@ -40,12 +40,12 @@ var RobustLinks = (function() {
         "https?://arquivo.pt/wayback/[0-9]+/*", // Arquivo.pt
         "https?://arquivo.pt/wayback/[0-9]+if_/*", // Arquivo.pt (outside pywb frame)
         "https?://perma-archives.org/warc/[0-9]+/*", // Perma.cc (datetime in URI-M)
-        "https?://perma.cc/*", // Perma.cc (identifier in URI-M)
+        "https?://perma.cc/[0-9A-Z]{4}-[0-9A-Z]{4}/*", // Perma.cc (identifier in URI-M)
         "https?://wayback.padicat.cat/wayback/[0-9]+/*", // Catalonia Archive
         "https?://archive.aueb.gr/services/web/[0-9]+/*", // Athens University of Economics and Business (AUEB)
         "https?://digital.library.yorku.ca/wayback/[0-9]+/*", // York University Libraries
         "https?://veebiarhiiv.digar.ee/a/[0-9]+/*", // Estonian Archive
-        "https?://wayback.archive-it.org/10702/*", // Natioanl Library of Ireland
+        // "https?://wayback.archive-it.org/10702/*", // National Library of Ireland
         "https?://webarchive.nrscotland.gov.uk/[0-9]+/*", // National Records of Scotland
         "https?://nukrobia.nuk.uni-lj.si:8080/wayback/[0-9]+/*", // Slovenian Archive
         "https?://swap.stanford.edu/[0-9]+/*" // Stanford Web Archive
