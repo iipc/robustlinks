@@ -14,9 +14,9 @@ Simply append the following lines to the `<head>` section of your HTML source:
 
 ```html
 <!-- RobustLinks CSS -->
-<link rel="stylesheet" type="text/css" href="http://mementoweb.github.io/robustlinks/robustlinks.css" />
+<link rel="stylesheet" type="text/css" href="http://iipc.github.io/robustlinks/robustlinks.css" />
 <!-- RobustLinks Javascript -->
-<script type="text/javascript" src="http://mementoweb.github.io/robustlinks/robustlinks-min.js"></script>
+<script type="text/javascript" src="http://iipc.github.io/robustlinks/robustlinks-min.js"></script>
 ```
 
 ## RobustLinks Menu
