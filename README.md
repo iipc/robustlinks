@@ -14,9 +14,9 @@ Simply append the following lines to the `<head>` section of your HTML source:
 
 ```html
 <!-- RobustLinks CSS -->
-<link rel="stylesheet" type="text/css" href="http://iipc.github.io/robustlinks/robustlinks.css" />
+<link rel="stylesheet" type="text/css" href="https://doi.org/10.25776/z58z-r575" />
 <!-- RobustLinks Javascript -->
-<script type="text/javascript" src="http://iipc.github.io/robustlinks/robustlinks-min.js"></script>
+<script type="text/javascript" src="https://doi.org/10.25776/h1fa-7a28"></script>
 ```
 
 ## RobustLinks Menu
