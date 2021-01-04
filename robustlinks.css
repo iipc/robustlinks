@@ -1,23 +1,35 @@
 /* --------------------------------------------------------
 Style Sheet for RobustLinks JavaScript
 
-version: 1.1
-last modified: 2015-03-04
+version: 1.1.1
+last modified: 2021-01-04
 author: Yorick Chollet <yorick.chollet@gmail.com>, Shawn M. Jones <jones.shawn.m@gmail.com>
 website: http://robustlinks.mementoweb.org/
 license: http://mementoweb.github.io/SiteStory/license.html
 ----------------------------------------------------------*/
 
 [aria-label^="RLElement"] ul {
-    list-style: none;
+    list-style: none !important;
     display: inline-block;
     position: relative;
-    padding: 0;
-    margin: 0;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
 [aria-label^="RLOuter"] li {
-    list-style: none;
+    list-style: none !important;
+    margin: 0 !important;
+}
+
+[aria-label^="RLElement"] li {
+    margin: 0 !important;
+    padding: 0 !important; 
+}
+
+[aria-label^="RLElement"] img{
+	margin: 0 !important;
+	padding: 0 !important;
+	display: inline !important;
 }
 
 .RLIcon{
@@ -60,8 +72,8 @@ ul.RLMenu{
 }
 
 [aria-label^="RLOuter"] a.RLItem {
-    color: black;
-    text-decoration: none;
+    color: black !important;
+    text-decoration: none !important;
     display: block;
     padding: 10px;
     text-align: center;
