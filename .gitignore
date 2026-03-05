@@ -1,0 +1,219 @@
+# General
+.DS_Store
+.env
+.idea/
+.vscode/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+node_modules/
+dist/
+build/
+coverage/
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# macOS
+.DS_Store
+.Trashes
+._*
+.Spotlight-V100
+.TemporaryItems
+.fseventsd
+Icon?
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.#*
+*.swp
+*.swo
+*.bak
+*.pyc
+*.pyo
+
+# Java
+*.class
+# Package Files
+*.jar
+*.war
+*.ear
+*.zip
+*.tar
+*.gz
+# Maven
+target/
+pom.xml.tag
+pom.xml.bak
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+releaseCandidate.properties
+# Gradle
+.gradle/
+build/
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+*.egg
+*.egg-info/
+dist/
+build/
+/htmlcov/
+.tox/
+.coverage
+.pytest_cache/
+*.mo
+*.pot
+*.log
+.mypy_cache/
+.vscode/
+
+# JavaScript/Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.env
+dist/
+build/
+coverage/
+tmp/
+*.orig
+.cache/
+
+# Ruby
+.bundle/
+/vendor/bundle
+.rvmrc
+.rbenv-version
+.zeus.sock
+public/assets/
+tmp/
+log/*.log
+*.log
+*.sqlite3
+*.rbc
+
+# C# / .NET
+[Bb]in/
+[Oo]bj/
+*.user
+*.suo
+*.sln.docstates
+_ReSharper*/
+*.resharper
+[Tt]humbs.db
+[Dd]esktop.ini
+
+# C++
+*.o
+*.obj
+*.ko
+*.mod.c
+*.lo
+*.loT
+*.class
+*.dll
+*.dSYM/
+*.lib
+*.so
+*.a
+*.exe
+*.out
+*.app
+*.bin
+*.res
+*.pch
+*.pdb
+*.ilk
+*.suo
+*.user
+*.ncb
+*.aps
+*.bsc
+*.sbr
+*.scc
+_UpgradeReport_Files/
+# Build files
+CMakeCache.txt
+CMakeFiles/
+Makefile
+cmake_install.cmake
+install/
+build/
+
+# Go
+*.exe
+*.dll
+*.so
+*.dylib
+*.o
+*.a
+*.bak
+*.tmp
+*.out
+*.log
+*_test
+test_coverage.html
+/vendor/
+
+# PHP
+/vendor/
+composer.lock
+.env
+.phpunit.result.cache
+
+# Swift / Objective-C
+build/
+*.xcarchive/
+*.xcuserdata/
+*.xccheckout/
+*.framework
+*.lo
+*.o
+*.d
+#*.js
+*.map
+*.swiftdoc
+*.swiftmodule
+*.ipa
+*.app
+
+# Docker
+Dockerfile.orig
+docker-compose.yml.orig
+
+# Vagrant
+.vagrant/
+
+# Terraform
+.terraform/
+*.tfplan
+*.tfstate
+*.tfstate.backup
+
+# Jekyll / Hugo (Static Site Generators)
+_site/
+public/
+.sass-cache/
+.jekyll-cache/

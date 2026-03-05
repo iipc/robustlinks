@@ -1,0 +1,113 @@
+/* --------------------------------------------------------
+Style Sheet for RobustLinks JavaScript
+
+version: 1.1.1
+last modified: 2021-01-04
+author: Yorick Chollet <yorick.chollet@gmail.com>, Shawn M. Jones <jones.shawn.m@gmail.com>
+website: http://robustlinks.mementoweb.org/
+license: http://mementoweb.github.io/SiteStory/license.html
+----------------------------------------------------------*/
+
+[aria-label^="RLElement"] ul {
+    list-style: none !important;
+    display: inline-block;
+    position: relative;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+[aria-label^="RLOuter"] li {
+    list-style: none !important;
+    margin: 0 !important;
+}
+
+[aria-label^="RLElement"] li {
+    margin: 0 !important;
+    padding: 0 !important; 
+}
+
+[aria-label^="RLElement"] img{
+	margin: 0 !important;
+	padding: 0 !important;
+	display: inline !important;
+}
+
+.RLIcon{
+    border-radius: 0;
+    width: 1px;
+    height: 1px;
+    box-shadow: 0px 0px rgba(0,0,0,0),0px 1px rgba(0,0,0,0),0px 2px rgba(0,0,0,0),0px 3px rgba(0,0,0,0),0px 4px rgba(0,0,0,0),0px 5px rgba(0,0,0,0),0px 6px rgba(0,0,0,0),0px 7px rgba(0,0,0,0),0px 8px rgba(0,0,0,0),0px 9px rgba(0,0,0,0),0px 10px rgba(51,51,51,1),0px 11px rgba(51,51,51,1),0px 12px rgba(51,51,51,1),0px 13px rgba(0,0,0,0),0px 14px rgba(0,0,0,0),1px 0px rgba(0,0,0,0),1px 1px rgba(0,0,0,0),1px 2px rgba(0,0,0,0),1px 3px rgba(0,0,0,0),1px 4px rgba(0,0,0,0),1px 5px rgba(0,0,0,0),1px 6px rgba(0,0,0,0),1px 7px rgba(0,0,0,0),1px 8px rgba(51,51,51,0.24),1px 9px rgba(51,51,51,1),1px 10px rgba(51,51,51,1),1px 11px rgba(51,51,51,1),1px 12px rgba(51,51,51,1),1px 13px rgba(51,51,51,1),1px 14px rgba(0,0,0,0),2px 0px rgba(0,0,0,0),2px 1px rgba(0,0,0,0),2px 2px rgba(0,0,0,0),2px 3px rgba(0,0,0,0),2px 4px rgba(0,0,0,0),2px 5px rgba(0,0,0,0),2px 6px rgba(0,0,0,0),2px 7px rgba(0,0,0,0),2px 8px rgba(51,51,51,1),2px 9px rgba(51,51,51,1),2px 10px rgba(0,0,0,0),2px 11px rgba(0,0,0,0),2px 12px rgba(0,0,0,0),2px 13px rgba(51,51,51,1),2px 14px rgba(51,51,51,1),3px 0px rgba(0,0,0,0),3px 1px rgba(0,0,0,0),3px 2px rgba(0,0,0,0),3px 3px rgba(0,0,0,0),3px 4px rgba(0,0,0,0),3px 5px rgba(0,0,0,0),3px 6px rgba(0,0,0,0),3px 7px rgba(51,51,51,1),3px 8px rgba(51,51,51,1),3px 9px rgba(0,0,0,0),3px 10px rgba(0,0,0,0),3px 11px rgba(0,0,0,0),3px 12px rgba(0,0,0,0),3px 13px rgba(51,51,51,1),3px 14px rgba(51,51,51,1),4px 0px rgba(0,0,0,0),4px 1px rgba(0,0,0,0),4px 2px rgba(0,0,0,0),4px 3px rgba(0,0,0,0),4px 4px rgba(0,0,0,0),4px 5px rgba(0,0,0,0),4px 6px rgba(51,51,51,1),4px 7px rgba(51,51,51,1),4px 8px rgba(0,0,0,0),4px 9px rgba(0,0,0,0),4px 10px rgba(0,0,0,0),4px 11px rgba(0,0,0,0),4px 12px rgba(0,0,0,0),4px 13px rgba(51,51,51,1),4px 14px rgba(51,51,51,1),5px 0px rgba(0,0,0,0),5px 1px rgba(0,0,0,0),5px 2px rgba(0,0,0,0),5px 3px rgba(0,0,0,0),5px 4px rgba(0,0,0,0),5px 5px rgba(51,51,51,1),5px 6px rgba(51,51,51,1),5px 7px rgba(0,0,0,0),5px 8px rgba(51,51,51,1),5px 9px rgba(0,0,0,0),5px 10px rgba(0,0,0,0),5px 11px rgba(0,0,0,0),5px 12px rgba(51,51,51,1),5px 13px rgba(51,51,51,1),5px 14px rgba(0,0,0,0),6px 0px rgba(0,0,0,0),6px 1px rgba(0,0,0,0),6px 2px rgba(0,0,0,0),6px 3px rgba(0,0,0,0),6px 4px rgba(0,0,0,0),6px 5px rgba(51,51,51,1),6px 6px rgba(51,51,51,1),6px 7px rgba(0,0,0,0),6px 8px rgba(51,51,51,1),6px 9px rgba(51,51,51,1),6px 10px rgba(0,0,0,0),6px 11px rgba(51,51,51,1),6px 12px rgba(51,51,51,1),6px 13px rgba(51,51,51,0.2),6px 14px rgba(0,0,0,0),7px 0px rgba(0,0,0,0),7px 1px rgba(0,0,0,0),7px 2px rgba(0,0,0,0),7px 3px rgba(51,51,51,1),7px 4px rgba(0,0,0,0),7px 5px rgba(51,51,51,1),7px 6px rgba(51,51,51,1),7px 7px rgba(0,0,0,0),7px 8px rgba(51,51,51,1),7px 9px rgba(51,51,51,1),7px 10px rgba(0,0,0,0),7px 11px rgba(51,51,51,1),7px 12px rgba(49,49,49,0.2),7px 13px rgba(0,0,0,0),7px 14px rgba(0,0,0,0),8px 0px rgba(0,0,0,0),8px 1px rgba(50,50,50,0.24),8px 2px rgba(51,51,51,1),8px 3px rgba(51,51,51,1),8px 4px rgba(0,0,0,0),8px 5px rgba(51,51,51,1),8px 6px rgba(51,51,51,1),8px 7px rgba(0,0,0,0),8px 8px rgba(51,51,51,1),8px 9px rgba(51,51,51,1),8px 10px rgba(0,0,0,0),8px 11px rgba(0,0,0,0),8px 12px rgba(0,0,0,0),8px 13px rgba(0,0,0,0),8px 14px rgba(0,0,0,0),9px 0px rgba(0,0,0,0),9px 1px rgba(51,51,51,1),9px 2px rgba(51,51,51,1),9px 3px rgba(0,0,0,0),9px 4px rgba(0,0,0,0),9px 5px rgba(0,0,0,0),9px 6px rgba(51,51,51,1),9px 7px rgba(0,0,0,0),9px 8px rgba(51,51,51,1),9px 9px rgba(51,51,51,1),9px 10px rgba(0,0,0,0),9px 11px rgba(0,0,0,0),9px 12px rgba(0,0,0,0),9px 13px rgba(0,0,0,0),9px 14px rgba(0,0,0,0),10px 0px rgba(51,51,51,1),10px 1px rgba(51,51,51,1),10px 2px rgba(0,0,0,0),10px 3px rgba(0,0,0,0),10px 4px rgba(0,0,0,0),10px 5px rgba(0,0,0,0),10px 6px rgba(0,0,0,0),10px 7px rgba(51,51,51,1),10px 8px rgba(51,51,51,1),10px 9px rgba(0,0,0,0),10px 10px rgba(0,0,0,0),10px 11px rgba(0,0,0,0),10px 12px rgba(0,0,0,0),10px 13px rgba(0,0,0,0),10px 14px rgba(0,0,0,0),11px 0px rgba(51,51,51,1),11px 1px rgba(51,51,51,1),11px 2px rgba(0,0,0,0),11px 3px rgba(0,0,0,0),11px 4px rgba(0,0,0,0),11px 5px rgba(0,0,0,0),11px 6px rgba(51,51,51,1),11px 7px rgba(51,51,51,1),11px 8px rgba(0,0,0,0),11px 9px rgba(0,0,0,0),11px 10px rgba(0,0,0,0),11px 11px rgba(0,0,0,0),11px 12px rgba(0,0,0,0),11px 13px rgba(0,0,0,0),11px 14px rgba(0,0,0,0),12px 0px rgba(51,51,51,1),12px 1px rgba(51,51,51,1),12px 2px rgba(0,0,0,0),12px 3px rgba(0,0,0,0),12px 4px rgba(0,0,0,0),12px 5px rgba(51,51,51,1),12px 6px rgba(51,51,51,1),12px 7px rgba(49,49,49,0.2),12px 8px rgba(0,0,0,0),12px 9px rgba(0,0,0,0),12px 10px rgba(0,0,0,0),12px 11px rgba(0,0,0,0),12px 12px rgba(0,0,0,0),12px 13px rgba(0,0,0,0),12px 14px rgba(0,0,0,0),13px 0px rgba(0,0,0,0),13px 1px rgba(51,51,51,1),13px 2px rgba(51,51,51,1),13px 3px rgba(51,51,51,1),13px 4px rgba(51,51,51,1),13px 5px rgba(51,51,51,1),13px 6px rgba(47,47,47,0.21),13px 7px rgba(0,0,0,0),13px 8px rgba(0,0,0,0),13px 9px rgba(0,0,0,0),13px 10px rgba(0,0,0,0),13px 11px rgba(0,0,0,0),13px 12px rgba(0,0,0,0),13px 13px rgba(0,0,0,0),13px 14px rgba(0,0,0,0),14px 0px rgba(0,0,0,0),14px 1px rgba(0,0,0,0),14px 2px rgba(51,51,51,1),14px 3px rgba(51,51,51,1),14px 4px rgba(51,51,51,1),14px 5px rgba(0,0,0,0),14px 6px rgba(0,0,0,0),14px 7px rgba(0,0,0,0),14px 8px rgba(0,0,0,0),14px 9px rgba(0,0,0,0),14px 10px rgba(0,0,0,0),14px 11px rgba(0,0,0,0),14px 12px rgba(0,0,0,0),14px 13px rgba(0,0,0,0),14px 14px rgba(0,0,0,0);
+    position: relative;
+    display: inline-block;
+    bottom: 12px;
+    left: 2px;
+}
+
+[aria-label^="RLOuter"] a.RLArrow {
+    color: black;
+    display: inline-block;
+    text-decoration: none;
+    /*http://stackoverflow.com/questions/2701192/character-for-up-down-triangle-arrow-to-display-in-html*/
+   height: 0;
+   width: 0;
+   border: 5px solid transparent;
+   border-top-color: #000;
+   left: 9px;   
+   top: 8px;
+
+    position: relative;
+      margin-right: 8px;
+}
+
+ul.RLMenu{
+    position: absolute;
+    top: 20px;
+    left: -135px;
+    background: #fff;
+    list-style: none;
+    border: 1px solid;
+    border-color: lightgrey;
+    z-index: 99999;
+    width: 320px;
+}
+
+[aria-label^="RLOuter"] a.RLItem {
+    color: black !important;
+    text-decoration: none !important;
+    display: block;
+    padding: 10px;
+    text-align: center;
+}
+
+[aria-label^="RLOuter"] .RLTitle {
+    color: black;
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    text-align: center;
+}
+
+[aria-label^="RLOuter"] a.RLItem:hover { 
+    background-color: lightgrey;
+}
+
+[aria-haspopup="true"] {
+    position: relative; 
+}
+
+ul[aria-hidden="true"] {
+    display: none;
+}
+
+ul[aria-hidden="false"] {
+    display: inline-block;
+}
+
+footer.RLFooter{
+    display: block;
+    font-family: Helvetica;
+    text-align: center;
+    font-size: 1em;
+    background-color: lightgrey;
+
+}

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robust Links V2 Demo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" 
+      integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" 
+      crossorigin="anonymous" 
+      referrerpolicy="no-referrer" />
+
+    <!-- RobustLinks CSS — included by reference, do not replace with a local copy -->
+    <link rel="stylesheet" type="text/css" href="https://doi.org/10.25776/z58z-r575" />
+</head>
+<body class="bg-gray-100 p-4">
+    <div class="container">
+        <h1 class="text-4xl font-bold mb-6">Robust Links V2 Demo</h1>
+        <p class="text-lg text-gray-700 mb-8 text-center">
+            This page demonstrates how the <code>RobustLinksV2</code> library renders
+            pre-configured robust links — links that have been explicitly annotated by the
+            page author with <code>data-originalurl</code> and <code>data-versiondate</code> attributes.
+        </p>
+        <p class="text-md text-gray-600 mb-8 text-center">
+            Robust Links annotations are always the deliberate choice of the page author.
+            This library renders and parses annotations you provide — it does not automatically
+            generate or guess annotations on your behalf. See
+            <a href="https://hvdsomp.info/robustlinks/#examples" class="text-blue-600 underline">hvdsomp.info/robustlinks/#examples</a>
+            for the full range of authoring scenarios.
+        </p>
+
+        <h2 class="section-title">Pre-Configured Robust Links</h2>
+        <p class="mb-4">The links below have been explicitly annotated by the page author. The <code>findAndParseRobustLinks()</code> method scans the document for these links and extracts their robust link data. Click "Parse Links Now" to see the parsed output. Check the browser console for any parsing warnings or errors.</p>
+
+        <ul class="link-list">
+            <li>
+                <a href="https://web.archive.org/web/20231026120000/https://www.nasa.gov/"
+                   data-originalurl="https://www.nasa.gov/"
+                   data-versiondate="2023-10-26"
+                   data-versionurl="https://web.archive.org/web/20231026120000/https://www.nasa.gov/ 20231026120000">
+                    NASA Homepage (October 2023)
+                </a>
+                <p class="text-sm text-gray-500 ml-4"><em>(Single snapshot, ISO8601 date)</em></p>
+            </li>
+            <li>
+                <a href="https://web.archive.org/web/20230101120000/https://www.nasa.gov/missions/artemis/"
+                   data-originalurl="https://www.nasa.gov/missions/artemis/"
+                   data-versiondate="20230101120000"
+                   data-versionurl="https://web.archive.org/web/20230101120000/https://www.nasa.gov/missions/artemis/ 20230101120000 https://web.archive.org/web/20221201120000/https://www.nasa.gov/missions/artemis/ 20221201120000">
+                    NASA Artemis Mission Page (January 2023)
+                </a>
+                <p class="text-sm text-gray-500 ml-4"><em>(Multiple snapshots, Web Archive URI datetime)</em></p>
+            </li>
+            <li>
+                <a href="https://web.archive.org/web/20240101000000/https://www.nasa.gov/humans-in-space/international-space-station/"
+                   data-originalurl="https://www.nasa.gov/humans-in-space/international-space-station/"
+                   data-versiondate="2024-01-01">
+                    NASA International Space Station Page (January 2024)
+                </a>
+                <p class="text-sm text-gray-500 ml-4"><em>(No snapshots, ISO8601 date only)</em></p>
+            </li>
+            <li>
+                <a href="https://web.archive.org/web/20231015000000/https://www.nasa.gov/solar-system/planets/mars/"
+                   data-originalurl="https://www.nasa.gov/solar-system/planets/mars/"
+                   data-versiondate="2023-10-15"
+                   data-versionurl="https://web.archive.org/web/20231015000000/https://www.nasa.gov/solar-system/planets/mars/ 20231015000000 invalid-url https://web.archive.org/web/20230901000000/https://www.nasa.gov/solar-system/planets/mars/ 20230901000000">
+                    NASA Mars Page — Mixed Valid/Invalid <code>data-versionurl</code>
+                </a>
+                <p class="text-sm text-gray-500 ml-4"><em>(Valid snapshots parsed, invalid URL warned in console)</em></p>
+            </li>
+            <li>
+                <a href="https://web.archive.org/web/20220601120000/https://www.nasa.gov/james-webb-space-telescope/"
+                   data-originalurl="https://www.nasa.gov/james-webb-space-telescope/"
+                   data-versiondate="20220601"
+                   data-versionurl="  https://web.archive.org/web/20220601120000/https://www.nasa.gov/james-webb-space-telescope/ 20220601120000    https://web.archive.org/web/20220301120000/https://www.nasa.gov/james-webb-space-telescope/   20220301120000  ">
+                    NASA James Webb Space Telescope Page — Excessive Spaces in <code>data-versionurl</code>
+                </a>
+                <p class="text-sm text-gray-500 ml-4"><em>(Multiple spaces in attribute handled correctly)</em></p>
+            </li>
+            <li>
+                <a href="https://web.archive.org/web/20231101000000/https://www.nasa.gov/history/"
+                   data-versiondate="2023-11-01">
+                    NASA History Page — Missing <code>data-originalurl</code> (defaults to href)
+                </a>
+                <p class="text-sm text-gray-500 ml-4"><em>(Per spec Section 3.5: <code>originalUrl</code> defaults to <code>href</code>)</em></p>
+            </li>
+            <li>
+                <a href="https://web.archive.org/web/20231101000000/https://www.nasa.gov/earth/"
+                   data-originalurl="https://www.nasa.gov/earth/">
+                    NASA Earth Page — Missing <code>data-versiondate</code> (will error)
+                </a>
+                <p class="text-sm text-gray-500 ml-4"><em>(Error logged and link skipped in parsing)</em></p>
+            </li>
+            <li>
+                <a href="/relative/href"
+                   data-originalurl="https://www.nasa.gov/"
+                   data-versiondate="2023-01-01">
+                    Relative <code>href</code> (will error)
+                </a>
+                <p class="text-sm text-gray-500 ml-4"><em>(Error logged because <code>href</code> is not absolute)</em></p>
+            </li>
+            <li>
+                <a href="https://web.archive.org/web/20231101000000/https://www.nasa.gov/missions/"
+                   data-originalurl="ftp://www.nasa.gov/missions/"
+                   data-versiondate="2023-11-01">
+                    FTP <code>data-originalurl</code> (will error)
+                </a>
+                <p class="text-sm text-gray-500 ml-4"><em>(Error logged because <code>data-originalurl</code> is not HTTP/HTTPS)</em></p>
+            </li>
+            <li>
+                <a href="https://web.archive.org/web/20231101000000/https://www.nasa.gov/aeronautics/"
+                   data-originalurl="https://www.nasa.gov/aeronautics/"
+                   data-versiondate="2023/11/01">
+                    Malformed <code>data-versiondate</code> (will error)
+                </a>
+                <p class="text-sm text-gray-500 ml-4"><em>(Error logged — slashes are not a valid date format)</em></p>
+            </li>
+            <li>
+                <a href="https://web.archive.org/web/20231101000000/https://www.nasa.gov/technology/"
+                   data-originalurl="https://www.nasa.gov/technology/"
+                   data-versiondate="2023-11-01"
+                   data-versionurl="">
+                    NASA Technology Page — Empty <code>data-versionurl</code>
+                </a>
+                <p class="text-sm text-gray-500 ml-4"><em>(Parsed with empty <code>versionSnapshots</code> array)</em></p>
+            </li>
+        </ul>
+
+        <h3 class="text-2xl font-semibold mt-6 mb-4">Parsed Robust Links:</h3>
+        <button id="parseLinksButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
+            Parse Links Now
+        </button>
+        <div id="parsedLinksOutput" class="bg-white p-4 rounded shadow-md text-sm overflow-x-auto">
+            <p>Press the "Parse Links Now" button to see the output.</p>
+        </div>
+
+        <h2 class="section-title">Console Output</h2>
+        <p>Open your browser's developer console (F12) to see debug messages from the <code>RobustLinksV2</code> class, especially for skipped or errored links.</p>
+    </div>
+
+    <!-- RobustLinks JavaScript — included by reference, do not replace with a local copy -->
+    <script type="module">
+        import { RobustLinksV2 } from 'https://doi.org/10.25776/h1fa-7a28';
+
+        let robustLinksInstance;
+
+        function parseAndDisplayLinks() {
+            console.log("Attempting to find and parse existing robust links...");
+            const parsedLinks = robustLinksInstance.findAndParseRobustLinks();
+            const outputDiv = document.getElementById('parsedLinksOutput');
+
+            if (parsedLinks.length > 0) {
+                outputDiv.innerHTML = '<pre>' + JSON.stringify(parsedLinks, (key, value) => {
+                    if (value instanceof Date) {
+                        return value.toISOString();
+                    }
+                    return value;
+                }, 2) + '</pre>';
+            } else {
+                outputDiv.innerHTML = '<p>No pre-configured robust links found or parsed.</p>';
+            }
+            console.log(`Found and parsed ${parsedLinks.length} robust links.`);
+        }
+
+        window.onload = () => {
+            console.log("Page loaded. Initializing RobustLinksV2...");
+
+            robustLinksInstance = new RobustLinksV2({
+                debug: true,
+                enableDropdown: true,
+                dropdownArrowHtml: '<i class="fas fa-chevron-down"></i>',
+            });
+
+            document.getElementById('parseLinksButton').addEventListener('click', parseAndDisplayLinks);
+        };
+    </script>
+</body>
+</html>
